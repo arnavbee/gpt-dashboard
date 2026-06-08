@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { DragDropContext, Droppable, Draggable } from '@hello-pangea/dnd';
-import { Plus, X, Search, Edit2, FolderOpen, FolderPlus, Sun, Moon, ArrowLeft, Compass } from 'lucide-react';
+import { Plus, X, Search, Edit2, FolderOpen, FolderPlus, Sun, Moon, ArrowLeft, Compass, Download, Upload } from 'lucide-react';
 import { EXPLORE_GPTS } from './data/explore-gpts';
 import './App.css';
 
@@ -277,6 +277,42 @@ function App() {
     setIsExploreOpen(false);
   };
 
+  const handleExport = () => {
+    const data = {
+      gpts,
+      folders,
+      theme
+    };
+    const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'gpt-dashboard-backup.json';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  };
+
+  const handleImport = (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      try {
+        const data = JSON.parse(event.target.result);
+        if (data.gpts) setGpts(data.gpts);
+        if (data.folders) setFolders(data.folders);
+        if (data.theme) setTheme(data.theme);
+        // Force reload to ensure everything syncs visually
+        setTimeout(() => window.location.reload(), 100);
+      } catch (err) {
+        alert('Invalid backup file');
+      }
+    };
+    reader.readAsText(file);
+  };
+
   const handleImageUpload = (e) => {
     const file = e.target.files[0];
     if (file) {
@@ -384,6 +420,22 @@ function App() {
           <button className="icon-btn-header" onClick={() => setTheme(theme === 'vercel' ? 'light' : 'vercel')}>
             {theme === 'vercel' ? <Sun size={20} /> : <Moon size={20} />}
           </button>
+          
+          {/* Hidden file input for import */}
+          <input 
+            type="file" 
+            id="import-upload" 
+            style={{ display: 'none' }} 
+            accept=".json"
+            onChange={handleImport}
+          />
+          <button className="icon-btn-header" title="Import Data" onClick={() => document.getElementById('import-upload').click()}>
+            <Upload size={20} />
+          </button>
+          <button className="icon-btn-header" title="Export Data" onClick={handleExport}>
+            <Download size={20} />
+          </button>
+          
           <button className="icon-btn-header" onClick={() => handleOpenModal(null, 'folder')}>
             <FolderPlus size={20} />
           </button>
