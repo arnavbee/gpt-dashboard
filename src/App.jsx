@@ -415,7 +415,7 @@ function App() {
       
       {/* HEADER */}
       <header className="header">
-        <h1>My GPTs</h1>
+        <h1>GPT Dash</h1>
         <div className="header-actions">
           <button className="icon-btn-header" onClick={() => setTheme(theme === 'vercel' ? 'light' : 'vercel')}>
             {theme === 'vercel' ? <Sun size={20} /> : <Moon size={20} />}
