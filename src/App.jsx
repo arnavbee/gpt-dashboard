@@ -346,25 +346,27 @@ function App() {
               </button>
             </div>
             
-            <div className="icon-container">
-              {item.type === 'folder' ? (
-                <div className="folder-icon"><FolderOpen size={40} /></div>
-              ) : (
-                <img src={item.iconUrl || '/placeholder.png'} alt={item.title} onError={(e) => {
-                    e.target.onerror = null; 
-                    e.target.src = '/placeholder.png';
-                }}/>
-              )}
-            </div>
-            
-            <div className="gpt-info">
-              {item.type === 'gpt' && <span className="gpt-category-tag">{item.category || 'General'}</span>}
-              <h3 className="gpt-title">{item.title}</h3>
-              {item.type === 'gpt' ? (
-                <p className="gpt-desc">{item.description}</p>
-              ) : (
-                <p className="gpt-desc">{item.items?.length || 0} items</p>
-              )}
+            <div className="gpt-card-inner">
+              <div className="icon-container">
+                {item.type === 'folder' ? (
+                  <div className="folder-icon"><FolderOpen size={40} /></div>
+                ) : (
+                  <img src={item.iconUrl || '/placeholder.png'} alt={item.title} onError={(e) => {
+                      e.target.onerror = null; 
+                      e.target.src = '/placeholder.png';
+                  }}/>
+                )}
+              </div>
+              
+              <div className="gpt-info">
+                {item.type === 'gpt' && <span className="gpt-category-tag">{item.category || 'General'}</span>}
+                <h3 className="gpt-title">{item.title}</h3>
+                {item.type === 'gpt' ? (
+                  <p className="gpt-desc">{item.description}</p>
+                ) : (
+                  <p className="gpt-desc">{item.items?.length || 0} items</p>
+                )}
+              </div>
             </div>
           </div>
         </div>
@@ -524,23 +526,25 @@ function App() {
               {EXPLORE_GPTS.map((item, index) => (
                 <div key={item.id} className="gpt-card-wrapper">
                   <div className="gpt-card vercel-panel" style={{ cursor: 'default' }}>
-                    <div className="icon-container">
-                      <img src={item.iconUrl || '/placeholder.png'} alt={item.title} />
-                    </div>
-                    
-                    <div className="gpt-info">
-                      <span className="gpt-category-tag">{item.category}</span>
-                      <h3 className="gpt-title">{item.title}</h3>
-                      <p className="gpt-desc" style={{ marginBottom: '1rem' }}>{item.description}</p>
+                    <div className="gpt-card-inner">
+                      <div className="icon-container">
+                        <img src={item.iconUrl || '/placeholder.png'} alt={item.title} />
+                      </div>
                       
-                      <button 
-                        className="add-btn" 
-                        style={{ width: '100%', justifyContent: 'center' }}
-                        onClick={() => handleAddFromExplore(item)}
-                      >
-                        <Plus size={16} />
-                        <span>Add</span>
-                      </button>
+                      <div className="gpt-info">
+                        <span className="gpt-category-tag">{item.category}</span>
+                        <h3 className="gpt-title">{item.title}</h3>
+                        <p className="gpt-desc" style={{ marginBottom: '1rem' }}>{item.description}</p>
+                        
+                        <button 
+                          className="add-btn" 
+                          style={{ width: '100%', justifyContent: 'center' }}
+                          onClick={() => handleAddFromExplore(item)}
+                        >
+                          <Plus size={16} />
+                          <span>Add</span>
+                        </button>
+                      </div>
                     </div>
                   </div>
                 </div>
