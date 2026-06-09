@@ -459,7 +459,7 @@ function App() {
               ref={searchInputRef}
               type="text" 
               className="search-input" 
-              placeholder="Search all GPTs..." 
+              placeholder="Search your GPTs..." 
               value={searchQuery}
               onChange={e => setSearchQuery(e.target.value)}
             />
