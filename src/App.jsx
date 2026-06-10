@@ -280,7 +280,6 @@ function App() {
   const handleExport = () => {
     const data = {
       gpts,
-      folders,
       theme
     };
     const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
@@ -302,7 +301,6 @@ function App() {
       try {
         const data = JSON.parse(event.target.result);
         if (data.gpts) setGpts(data.gpts);
-        if (data.folders) setFolders(data.folders);
         if (data.theme) setTheme(data.theme);
         // Force reload to ensure everything syncs visually
         setTimeout(() => window.location.reload(), 100);
